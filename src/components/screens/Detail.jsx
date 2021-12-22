@@ -1,34 +1,16 @@
-import axios from 'axios'
 import {Link,useParams} from 'react-router-dom'
-import {useEffect,useState,Fragment} from 'react'
-
+import {Fragment,useContext} from 'react'
+import DetailContext from '../context/DetailContext'
 
 
 const Detail = () => {
-    const [user,setUser] = useState({})
-    const [isError,setIsError] = useState(false)
-    const params = useParams()
-    let  {id} = params
+        const {user, setParams} = useContext(DetailContext)
+        const {id} = useParams()
+        setParams(id)
 
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const res = await axios.get(`https://my-json-server.typicode.com/1ohnny/test-api/employees/${id}`)
-            
-                const {data} = res
-                setUser(data)
-                console.log(user)
-            } catch (error) {
-                setIsError(true)
-            }
-        }
-        console.log('useEffect')
-        getUserData()
-    },[id])
-console.log('render')
+
         return (
-            <Fragment>
-                {isError && <div>Something went wrong</div>}
+        <Fragment>
             <div className="container">
                 <table>
                     <thead>
@@ -39,26 +21,20 @@ console.log('render')
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {user && console.log(user.id)} */}
                          {user.contracts && user.contracts.map((contract,i) => (
                             <tr key={i}>
-                                <td>{contract.typeId ? contract.typeId : 'nothing'}</td>
-                                <td>{contract.from ? contract.from : 'nothing'}</td>
-                                <td>{contract.to ? contract.to : 'nothing'}</td>
+                                <td>{contract.typeId ? contract.typeId : "No id"}</td>
+                                <td>{contract.from ? contract.from : '-'}</td>
+                                <td>{contract.to ? contract.to : '-'}</td>
                             </tr>
                         ))}
-                        {/* /* <tr>
-                            <td>Trvalý pracovný pomer</td>
-                            <td>{user.contracts.map(item => (item.from))}</td>
-                            <td>{user.surname}</td>
-                        </tr> */ }
                     </tbody>
                 </table>
                 <Link to="/" className="btn__back">
                 Späť na zoznam zamestnancov
                 </Link>
             </div>
-            </Fragment>
+        </Fragment>
         )
 }
 

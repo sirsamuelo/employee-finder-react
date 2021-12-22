@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
+import {useContext} from 'react'
+import ListingContext from './context/ListingContext'
 
-const Grid = ({employer,employerPosition}) => {
+const Grid = ({employer}) => {
+    const {employerPosition} = useContext(ListingContext)
+
     const formatDate = (someDate) => {
         if(someDate == null){
             return '-'
